@@ -116,8 +116,8 @@ private:
   void initLagrangians(const std::vector<std::shared_ptr<T>> & Ps);
 
   bool step(); // outer step
-  bool stepSequential(); // step each subproblem and update Z in sequence
-  bool stepParallel();   // step each subproblem and update Z in //
+  void stepSequential(); // step each subproblem and update Z in sequence
+  void stepParallel();   // step each subproblem and update Z in //
 
   bool step(DecLagrangianType& DL, OptNewton& newton, arr& dual, uint i) const; // inner step
 

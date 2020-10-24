@@ -28,7 +28,6 @@ target_link_libraries(
  ${Boost_LIBRARIES}
  Core
  Optim
- gcov
 )
 
 add_subdirectory(test)

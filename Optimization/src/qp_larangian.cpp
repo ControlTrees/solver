@@ -16,7 +16,7 @@ arr extractGreaterThan0(const arr& a, const arr& mask)
       }
       else
       {
-        for(auto j = 0; j < b.d1; ++j)
+        for(uint j = 0; j < b.d1; ++j)
         {
           b(i,j) = 0;
         }
@@ -133,7 +133,7 @@ uint QP_Lagrangian::get_dimOfType(const ObjectiveType& tt)
 
 void QP_Lagrangian::aulaUpdate(bool anyTimeVariant, double _, double muInc, double *L_x, arr &dL_x, arr &HL_x)
 {
-  for(auto i = 0; i < lambda.d0; ++i)
+  for(uint i = 0; i < lambda.d0; ++i)
   {
     lambda(i) = std::max(lambda(i) + 2.0 * mu * g(i), 0.0);
     // see "A tutorial on Newton methods for constrained trajectory optimization and relations to SLAM,

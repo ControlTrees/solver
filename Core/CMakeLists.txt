@@ -24,7 +24,7 @@ target_include_directories(${project_name} PUBLIC "../")
 target_link_libraries(${project_name}
 ${BLAS_blas_LIBRARY}
 ${LAPACK_lapack_LIBRARY}
-gcov
+#gcov
 )
 
 #add_subdirectory(test)

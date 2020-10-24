@@ -10,7 +10,7 @@ namespace
   {
     arr x(var.d0);
 
-    for(auto i = 0; i < var.d0; ++i)
+    for(uint i = 0; i < var.d0; ++i)
     {
       const auto& I = var(i);
       if(I!=-1)
@@ -22,7 +22,7 @@ namespace
 
   void setFromSub(const arr& x, const intA& var, arr & zz) // set global variable zz from sub x
   {
-    for(auto i = 0; i < var.d0; ++i)
+    for(uint i = 0; i < var.d0; ++i)
     {
       const auto& I = var(i);
       if(I!=-1)
@@ -40,10 +40,9 @@ void AverageUpdater::updateZ(arr& z,
   const auto N = xs.size();
   z.setZero();
 
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     const auto& x = xs[i];
-    const auto& lambda = DLs[i]->lambda;
     const auto& var = vars[i];
 
     //arr zinc = x;
@@ -52,7 +51,7 @@ void AverageUpdater::updateZ(arr& z,
     // lagrange admm sum = 0 (guaranteed see part 7. Consensus and Sharing)
 
     // add increment
-    for(auto i = 0; i < var.d0; ++i)
+    for(uint i = 0; i < var.d0; ++i)
     {
       const auto& I = var(i);
       if(I!=-1)
@@ -73,10 +72,9 @@ void BeliefState::updateZ(arr& z,
   const auto N = xs.size();
   z.setZero();
 
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     const auto& x = xs[i];
-    const auto& lambda = DLs[i]->lambda;
     const auto& var = vars[i];
 
     //arr zinc = x;
@@ -85,7 +83,7 @@ void BeliefState::updateZ(arr& z,
     // lagrange weighted admm sum = 0 (guaranteed see part 7. Consensus and Sharing)
 
     // add increment
-    for(auto j = 0; j < var.d0; ++j)
+    for(uint j = 0; j < var.d0; ++j)
     {
       const auto& J = var(j);
       if(J!=-1)
@@ -103,8 +101,8 @@ DecOptConstrained<T, U>::DecOptConstrained(arr& _z, std::vector<std::shared_ptr<
   : z_final(_z)
   , N(Ps.size())
   , contribs(zeros(z_final.d0))
-  , zUpdater(_zUpdater)
   , z(z_final.copy())
+  , zUpdater(_zUpdater)
   , config(_config)
 {
   // maybe preferable to have the same pace for ADMM and AULA terms -> breaks convergence is set to 2.0, strange!
@@ -127,7 +125,7 @@ void DecOptConstrained<T, U>::initVars(const std::vector<arr> & xmasks)
   std::vector<arr> masks;
   masks.reserve(N);
   if(config.compressed) CHECK(xmasks.size() > 0, "In compressed mode, the masks should be provided!");
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     masks.push_back( (i < xmasks.size() && xmasks[i].d0 == z.d0 ? xmasks[i] : ones(z.d0) ) );
     contribs += masks.back();
@@ -135,12 +133,12 @@ void DecOptConstrained<T, U>::initVars(const std::vector<arr> & xmasks)
 
   // fill vars with default values if not provided
   vars.reserve(N);
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     intA var;
     var.reserve(z.d0);
 
-    for(auto k = 0; k < masks[i].d0; ++k)
+    for(uint k = 0; k < masks[i].d0; ++k)
     {
       if(masks[i](k))
       {
@@ -157,19 +155,19 @@ void DecOptConstrained<T, U>::initVars(const std::vector<arr> & xmasks)
   }
 
   // count where admm comes into play (for averaging contributions and computing primal residual)
-  for(auto i = 0; i < contribs.d0; ++i)
+  for(uint i = 0; i < contribs.d0; ++i)
   {
     if(contribs(i)>1) m++;
   }
 
   // fill admm vars
   admmVars.reserve(N);
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     const auto & var = vars[i];
     intA admmVar;
 
-    for(auto i = 0; i < var.d0; ++i)
+    for(uint i = 0; i < var.d0; ++i)
     {
       if(contribs(var(i))>1) // another subproblem contributes here, we activate the ADMM term
       {
@@ -188,13 +186,13 @@ void DecOptConstrained<T, U>::initXs()
 {
   xs.reserve(N);
 
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     if(config.compressed)
     {
       const auto& var = vars[i];
       auto x = arr(var.d0);
-      for(auto j = 0; j < x.d0; ++j)
+      for(uint j = 0; j < x.d0; ++j)
       {
         x(j) = z(var(j));
       }
@@ -214,7 +212,7 @@ void DecOptConstrained<T, U>::initLagrangians(const std::vector<std::shared_ptr<
   newtons.reserve(N);
   duals.reserve(N);
 
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     auto& P = Ps[i];
     auto& var = vars[i];
@@ -271,7 +269,7 @@ DualState DecOptConstrained<T, U>::getDualState() const
   state.duals = std::vector<arr>(N);
   state.admmDuals = std::vector<arr>(N);
 
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     state.duals[i] = duals[i];
     state.admmDuals[i] = DLs[i]->lambda;
@@ -285,7 +283,7 @@ DualState DecOptConstrained<T, U>::getDualState() const
 template <typename T, typename U>
 void DecOptConstrained<T, U>::setDualState(const DualState& state)
 {
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     CHECK_EQ(Ls[i]->mu, 1.0, "not a lot of sense if mu is increased");
 
@@ -323,11 +321,11 @@ bool DecOptConstrained<T, U>::step()
 }
 
 template <typename T, typename U>
-bool DecOptConstrained<T, U>::stepSequential()
+void DecOptConstrained<T, U>::stepSequential()
 {
   subProblemsSolved = true;
   arr zz = z; // local z modified by each subproblem in sequence (we can't use the z here, which has to be consistent among all subproblems iterations)
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     DecLagrangianType& DL = *DLs[i];
     OptNewton& newton = *newtons[i];
@@ -348,10 +346,10 @@ bool DecOptConstrained<T, U>::stepSequential()
 }
 
 template <typename T, typename U>
-bool DecOptConstrained<T, U>::stepParallel()
+void DecOptConstrained<T, U>::stepParallel()
 {
   std::vector<std::future<bool>> futures;
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     DecLagrangianType& DL = *DLs[i];
     OptNewton& newton = *newtons[i];
@@ -368,7 +366,7 @@ bool DecOptConstrained<T, U>::stepParallel()
 
   // synchro
   subProblemsSolved = true;
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     subProblemsSolved = futures[i].get() && subProblemsSolved;
   }
@@ -471,7 +469,7 @@ bool DecOptConstrained<T, U>::step(DecLagrangianType& DL, OptNewton& newton, arr
     case squaredPenalty: L.aulaUpdate(false, -1., opt.aulaMuInc, &newton.fx, newton.gx, newton.Hx);  break;
     case augmentedLag:   L.aulaUpdate(false, 1., opt.aulaMuInc, &newton.fx, newton.gx, newton.Hx);  break;
     case anyTimeAula:    L.aulaUpdate(true,  1., opt.aulaMuInc, &newton.fx, newton.gx, newton.Hx);  break;
-    //case logBarrier:     L.muLB /= 2.;  break;
+    case logBarrier:     HALT("you should not be here"); break; //L.muLB /= 2.;  break;
     case squaredPenaltyFixed: HALT("you should not be here"); break;
     case noMethod: HALT("need to set method before");  break;
   }
@@ -496,7 +494,7 @@ void DecOptConstrained<T, U>::updateADMM()
 {
   its++;
 
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     OptNewton& newton = *newtons[i];
     DLs[i]->updateADMM(xs[i], z);
@@ -542,7 +540,7 @@ double DecOptConstrained<T, U>::primalResidual() const
 {
   double r = 0;
 
-  for(auto i = 0; i < N; ++i)
+  for(uint i = 0; i < N; ++i)
   {
     arr delta = DLs[i]->deltaZ(xs[i]);
     r += length(delta);
@@ -581,7 +579,7 @@ bool DecOptConstrained<T, U>::dualFeasibility(double s) const
 template <typename T, typename U>
 void DecOptConstrained<T, U>::checkGradients() const
 {
-  for(auto w = 0; w < DLs.size(); ++w)
+  for(uint w = 0; w < DLs.size(); ++w)
   {
     checkGradient(*DLs[w], xs[w], 1e-4, true);
   }
