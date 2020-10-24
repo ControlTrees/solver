@@ -1,7 +1,7 @@
 #include <Optim/newton.h>
 #include <Optim/constrained.h>
-#include <Optimization/decentralized_optimizer.h>
-#include <Optimization/qp_lagrangian.h>
+#include <OptimDec/decentralized_optimizer.h>
+#include <OptimDec/qp_lagrangian.h>
 #include <gtest/gtest.h>
 
 #include "support/qp_problems.cpp"

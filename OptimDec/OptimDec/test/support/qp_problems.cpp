@@ -1,4 +1,4 @@
-#include <Optimization/qp_lagrangian.h>
+#include <OptimDec/qp_lagrangian.h>
 
 std::shared_ptr<QP_Problem> createUnconstrained2d(double center)
 {

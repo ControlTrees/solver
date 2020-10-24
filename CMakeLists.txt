@@ -8,5 +8,5 @@ add_definitions(-O3 -Wall -DRAI_LAPACK -DRAI_EIGEN -DRAI_PTHREAD -Wno-terminate 
 
 add_subdirectory("Core")
 add_subdirectory("Optim")
-add_subdirectory("Optimization")
+add_subdirectory("OptimDec")
 

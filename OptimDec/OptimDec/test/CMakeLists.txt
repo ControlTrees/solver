@@ -17,7 +17,7 @@ foreach(test ${tests})
     add_executable(${test_name} ${test})
     target_link_libraries(${test_name}
                           ${GTEST_LIBRARIES}
-                          Optimization
+                          OptimDec
                           pthread
                           gtest
                           )

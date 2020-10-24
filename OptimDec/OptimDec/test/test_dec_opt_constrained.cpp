@@ -1,8 +1,8 @@
-#include <Optimization/decentralized_optimizer.h>
-#include "support/functions.cpp"
-#include <stdexcept>
+#include <OptimDec/decentralized_optimizer.h>
 
 #include <gtest/gtest.h>
+
+#include "support/functions.cpp"
 
 constexpr double eps_s = 0.02;
 

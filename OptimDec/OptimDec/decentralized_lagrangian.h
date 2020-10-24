@@ -78,4 +78,4 @@ struct DecLagrangianProblem : ScalarFunction {
   void updateADMM(const arr& x, const arr& z);
 };
 
-#include <Optimization/decentralized_lagrangian.tpp>
+#include <OptimDec/decentralized_lagrangian.tpp>
