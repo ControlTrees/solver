@@ -2,7 +2,7 @@
 #include <Optim/constrained.h>
 #include <gtest/gtest.h>
 
-#include "functions.cpp"
+#include "support/functions.cpp"
 
 constexpr double eps = 0.0001;
 constexpr double eps_s = 0.01;

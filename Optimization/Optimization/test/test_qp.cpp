@@ -4,7 +4,7 @@
 #include <Optimization/qp_lagrangian.h>
 #include <gtest/gtest.h>
 
-#include "qp_problems.cpp"
+#include "support/qp_problems.cpp"
 
 constexpr double eps = 0.0001;
 constexpr double eps_s = 0.01;

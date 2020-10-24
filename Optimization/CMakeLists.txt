@@ -22,7 +22,7 @@ find_package(Boost COMPONENTS system filesystem serialization REQUIRED)
 file(GLOB_RECURSE SOURCES *.cpp *.h *.tpp)
 
 add_library(${project_name} STATIC ${SOURCES})
-target_include_directories(${project_name} PUBLIC "include")
+target_include_directories(${project_name} PUBLIC ".")
 target_link_libraries(
  ${project_name}
  ${Boost_LIBRARIES}
@@ -30,4 +30,4 @@ target_link_libraries(
  Optim
 )
 
-add_subdirectory(test)
+add_subdirectory(${project_name}/test)

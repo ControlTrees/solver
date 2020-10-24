@@ -1,5 +1,5 @@
 #include <Optimization/decentralized_optimizer.h>
-#include "functions.cpp"
+#include "support/functions.cpp"
 #include <stdexcept>
 
 #include <gtest/gtest.h>
