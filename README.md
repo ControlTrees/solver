@@ -21,12 +21,8 @@ cmake ../solver
 make
 ```
 
-## Usage
-
-```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+## Execute tests
+All tests can be executed with the following command:
+```bash
+ctest
 ```
