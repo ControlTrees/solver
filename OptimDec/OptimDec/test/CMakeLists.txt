@@ -3,6 +3,8 @@ cmake_minimum_required (VERSION 2.8)
 get_filename_component(project_name ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 string(REPLACE " " "_" project_name ${project_name})
 
+include(CTest)
+
 # list all tests
 file(GLOB_RECURSE tests *.cpp)
 
@@ -21,4 +23,5 @@ foreach(test ${tests})
                           pthread
                           gtest
                           )
+    add_test(NAME ${test_name} COMMAND ${test_name})
 endforeach()
