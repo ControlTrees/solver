@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.8.12)
 get_filename_component(project_name ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 project(${project_name})
 
-add_definitions(-std=c++11)
+add_definitions(-std=c++14)
 add_definitions(-DRAI_EIGEN=1)
 
 #################################
