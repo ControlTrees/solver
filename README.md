@@ -21,7 +21,7 @@ cmake ../solver
 make
 ```
 
-## Execute tests
+## Execute all tests
 All tests can be executed with the following command:
 ```bash
 ctest
